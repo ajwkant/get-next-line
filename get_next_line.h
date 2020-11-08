@@ -6,7 +6,7 @@
 /*   By: akant <akant@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/05 13:47:57 by akant         #+#    #+#                 */
-/*   Updated: 2020/11/05 13:52:20 by akant         ########   odam.nl         */
+/*   Updated: 2020/11/08 21:54:37 by akant         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@
 
 #ifndef GET_NEXT_LINE
 # define GET_NEXT_LINE
+
+#ifndef BUFFER_SIZE
+	
+#endif
 
 int		get_next_line(int fd, char **line);
 
