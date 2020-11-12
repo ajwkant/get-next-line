@@ -6,35 +6,123 @@
 /*   By: akant <akant@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/05 13:47:01 by akant         #+#    #+#                 */
-/*   Updated: 2020/11/08 21:38:42 by akant         ########   odam.nl         */
+/*   Updated: 2020/11/10 22:38:25 by alexanderka   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int		get_next_line(int fd, char **line)
+void	line_clear(char *line)
 {
-	char			*buf;
-	unsigned int	bytes_read;
-	int				i;
+	int	size;
 
-	if (!fd)   //|| !line)
-		return (0);
-	buf = malloc(BUFFER_SIZE * sizeof(char));
-	if (!buf)
-		return (-1);
-	bytes_read = read(fd, buf, BUFFER_SIZE);
-	if (!bytes_read)
-		return (0);
-	i = 0;
-	while (buf[i] != '\n')
+	size = 0;
+	while(size < BUFFER_SIZE)
 	{
-		(*line)[i] = buf[i];
-		i++;
+		line[size] = '\0';
+		size++;
 	}
-	(*line)[i] = buf[i];
+}
+
+int		end_reached(buffer *buf)
+{
+	if (buf->bstr[buf->bindex] == '\0')
+	{
+		free(buf->bstr);
+		free(buf);
+		return (0);
+	}
 	return (1);
 }
 
-// Should behave well reading from file and from stdin
-// until EOF
+int		line_read(char *line, buffer *buf)
+{
+	unsigned int	bytes_read;
+
+	while(buf->bindex == BUFFER_SIZE || buf->bindex == 0 ||
+	buf->bstr[buf->bindex] == '\n')
+	{
+		if (buf->bstr[buf->bindex] == '\n')
+			buf->bindex++;
+		if (buf->bindex == BUFFER_SIZE || buf->bindex == 0)
+		{
+			buf->bindex = 0;
+			buf->sindex = 0;
+			bytes_read = read(buf->fd, buf->bstr, BUFFER_SIZE);
+		}
+		if (bytes_read < 0)
+			return (-1);
+		while (buf->bindex < BUFFER_SIZE &&
+		buf->bstr[buf->bindex] != '\n' &&
+		buf->bstr[buf->bindex] != '\0')
+		{
+			line[buf->sindex] = buf->bstr[buf->bindex];
+			buf->bindex++;
+			buf->sindex++;
+		}
+		if (buf->bstr[buf->bindex] == '\0' || buf->bstr[buf->bindex] == '\n')
+			return (end_reached(buf));
+	}
+	if (!bytes_read)
+	{
+		printf("HIER: %s", buf->bstr);
+		write(1, "1", 1);
+		free(buf->bstr);
+		free(buf);
+		return (0);
+	}
+	return (2);
+}
+
+buffer	*new_fd(int fd)
+{
+	buffer	*buf;
+	
+	buf = memalloc(1, sizeof(buffer));
+	if (!buf)
+		return (NULL);
+	buf->next = NULL;
+	buf->fd = fd;
+	buf->bstr = memalloc(BUFFER_SIZE, sizeof(char));
+	if (!buf->bstr)
+		return (NULL);
+	buf->bindex = 0;
+	return (buf);
+}
+
+int		get_next_line(int fd, char **line)
+{
+	static buffer	*list;
+	buffer			*buf;
+
+	if (fd < 0 || !line)
+		return (-1);
+	if (!list)
+	{
+		list = memalloc(1, sizeof(buffer *));
+		if (!list)
+			return (-1);
+		buf = new_fd(fd);
+		if (!buf)
+			return (-1);
+		list = buf;
+		list->next = NULL;
+	}
+	else
+	{
+		buf = look_lst_for_fd(list, fd);
+		if (!buf)
+		{
+			buf = new_fd(fd);
+			printf("%p, %p\n", buf, list);
+			if (!buf)
+				return (-1);
+			buf->next = NULL;
+			add_last_node(list, buf);
+			printf("%p, %p, %p\n", list, buf, buf->next);
+		}
+	}
+	buf->sindex = 0;
+	line_clear(*line);
+	return (line_read(*line, buf));
+}
