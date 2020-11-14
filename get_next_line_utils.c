@@ -6,7 +6,7 @@
 /*   By: akant <akant@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/05 13:59:22 by akant         #+#    #+#                 */
-/*   Updated: 2020/11/10 22:36:23 by alexanderka   ########   odam.nl         */
+/*   Updated: 2020/11/14 18:16:40 by akant         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,43 +19,43 @@ buffer	*look_lst_for_fd(buffer *list, int fd)
 	temp = list;
 	if (temp)
 	{
-		printf("%p, %p\n", temp, temp->next);
+		// printf("%p, %p\n", temp, temp->next);
 		if (temp->fd == fd)
 			return (temp);
-		if (temp->next == temp)
-			write(1, "X", 1);
+		// if (temp->next == temp)
+		// 	write(1, "X", 1);
 		temp = temp->next;
 	}
 	return (NULL);
 }
 
-void	add_last_node(buffer *list, buffer *new_buf)
+void	add_last_node(buffer **list, buffer *new_buf)
 {
-	while (list)
+	buffer *temp;
+
+	temp = *list;
+	// printf("%p, %p\n", temp, temp->next);
+	while (temp)
 	{
-		if (list->next == NULL)
+		// printf("%p, %p\n", temp, temp->next);
+		if (temp->next == NULL)
 		{
-			list->next = new_buf;
-			return;
+			printf("THIS WENT OK!\n");
+			temp->next = new_buf;
+			printf("Third: %p\n", new_buf);
+			return ;
 		}
-		list = list->next;
+		temp = temp->next;
 	}
 }
 
-char	*memalloc(size_t nitems, size_t size)
+buffer	*ft_lstlast(buffer *lst)
 {
-	char	*ptr;
-	unsigned int		i;
-
-	i = 0;
-	ptr = malloc(nitems * size);
-	if (!ptr)
-		return (NULL);
-	
-	while (i < nitems)
+	while (lst)
 	{
-		ptr[i] = '\0';
-		i++;
+		if (lst->next == NULL)
+			return (lst);
+		lst = lst->next;
 	}
-	return (ptr);
+	return (NULL);
 }

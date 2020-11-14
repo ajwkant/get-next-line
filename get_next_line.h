@@ -6,7 +6,7 @@
 /*   By: akant <akant@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/05 13:47:57 by akant         #+#    #+#                 */
-/*   Updated: 2020/11/10 22:36:04 by alexanderka   ########   odam.nl         */
+/*   Updated: 2020/11/14 18:54:10 by akant         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,23 @@
 #ifndef GET_NEXT_LINE
 # define GET_NEXT_LINE
 
-#ifndef BUFFER_SIZE
-	int BUFFER_SIZE = 20;
-#endif
+# ifndef BUFFER_SIZE
 
-typedef struct fd_process
+int	BUFFER_SIZE = 20;
+# endif
+
+typedef	struct			fd_process
 {
 	int					fd;
 	char				*bstr;
 	int					bindex;
 	int					sindex;
 	struct fd_process	*next;
-} buffer;
+}						buffer;
 
 int		get_next_line(int fd, char **line);
 buffer	*look_lst_for_fd(buffer *list, int fd);
-void	add_last_node(buffer *list, buffer *new_buf);
-char	*memalloc(size_t nitems, size_t size);
+void	add_last_node(buffer **list, buffer *new_buf);
+buffer	*ft_lstlast(buffer *lst);
 
 #endif
