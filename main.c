@@ -6,7 +6,7 @@
 /*   By: akant <akant@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/05 13:38:38 by akant         #+#    #+#                 */
-/*   Updated: 2020/11/14 17:38:48 by akant         ########   odam.nl         */
+/*   Updated: 2020/11/15 17:07:11 by akant         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,17 @@ int		main(void)
 	// fd = 0;
 	while (0 < (ret = get_next_line(fd, line)))
 	{
+		printf("RETURNVALUE: %d, LINE: %s\n",ret, *line);
+	}
+	printf("RETURNVALUE: %d, LINE: %s\n",ret, *line);
+	
+	fd = open("test2", O_RDONLY);
+	// fd = 0;
+	while (0 < (ret = get_next_line(fd, line)))
+	{
 		printf("RETURNWAARDE: %d, LINE: %s\n",ret, *line);
 	}
 	printf("RETURNWAARDE: %d, LINE: %s\n",ret, *line);
-	
-	// fd = open("test2", O_RDONLY);
-	// // fd = 0;
-	// while (0 < (ret = get_next_line(fd, line)))
-	// {
-	// 	printf("RETURNWAARDE: %d, LINE: %s\n",ret, *line);
-	// }
-	// printf("RETURNWAARDE: %d, LINE: %s\n",ret, *line);
 	fd = open("test3", O_RDONLY);
 	ret = get_next_line(fd, line);
 	printf("RETURNWAARDE: %d, LINE: %s\n",ret, *line);

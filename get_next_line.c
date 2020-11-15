@@ -6,7 +6,7 @@
 /*   By: akant <akant@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/05 13:47:01 by akant         #+#    #+#                 */
-/*   Updated: 2020/11/14 21:45:08 by akant         ########   odam.nl         */
+/*   Updated: 2020/11/15 17:04:21 by akant         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,8 +142,9 @@ buffer	**make_list(buffer **list)
 
 buffer	*make_buf(int fd)
 {
-	buffer			*buf;
+	buffer	*buf;
 
+	// printf("THIS IS NODE NUMBER: |%d| for FD number: |%d|\n", i, fd);
 	buf = malloc(sizeof(buffer));
 	if (!buf)
 		return (NULL);
@@ -160,20 +161,29 @@ int		get_next_line(int fd, char **line)
 	static buffer	**list;
 	buffer			*buf;
 
-	if (fd < 0 || !line) // line nog zelf mallocen
+	if (fd < 0 || !line)
 		return (-1);
 	if (!list)
 	{
+		printf("New list\n");
 		if (!(list = make_list(list)))
 			return (-1);
 		buf = make_buf(fd);
+		printf("THIS IS if NODE NUMBER: |%p| for FD number: |%d|\n", buf, fd);
 		*list = buf;
 	}
 	else
 	{
+		printf("FD: %d\n", fd);
 		if (!(buf = look_lst_for_fd(*list, fd)))
+		{
+			printf("New node\n");
 			buf = make_buf(fd);
-		add_last_node(list, buf);
+			printf("THIS IS else NODE NUMBER: |%p| for FD number: |%d|\n", buf, fd);
+			printf("%p, %p\n", ft_lstlast(*list), buf);
+			ft_lstlast(*list)->next = buf;
+			printf("Node added to list\n");
+		}
 	}
 	buf->sindex = 0;
 	line_clear(*line);
