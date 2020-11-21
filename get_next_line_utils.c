@@ -6,36 +6,8 @@
 /*   By: akant <akant@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/05 13:59:22 by akant         #+#    #+#                 */
-/*   Updated: 2020/11/15 16:44:53 by akant         ########   odam.nl         */
+/*   Updated: 2020/11/21 14:02:41 by akant         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-buffer	*look_lst_for_fd(buffer *list, int fd)
-{
-	buffer	*temp;
-
-	temp = list;
-	if (temp)
-	{
-		// printf("%p, %p\n", temp, temp->next);
-		if (temp->fd == fd)
-			return (temp);
-		// if (temp->next == temp)
-		// 	write(1, "X", 1);
-		temp = temp->next;
-	}
-	return (NULL);
-}
-
-buffer	*ft_lstlast(buffer *lst)
-{
-	while (lst)
-	{
-		if (lst->next == NULL)
-			return (lst);
-		lst = lst->next;
-	}
-	return (NULL);
-}
