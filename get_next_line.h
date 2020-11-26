@@ -6,7 +6,7 @@
 /*   By: akant <akant@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/05 13:47:57 by akant         #+#    #+#                 */
-/*   Updated: 2020/11/23 13:09:40 by alexanderka   ########   odam.nl         */
+/*   Updated: 2020/11/26 19:50:46 by akant         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,16 @@ int	BUFFER_SIZE = 20;
 
 typedef	struct			fd_process
 {
-	int					fd;
+	int					exists;
+	int					fd; // weghalen
 	int					line_size;
-	char				*bstr;
+	char				bstr[BUFFER_SIZE + 1];
 	int					bindex;
 	int					sindex;
 }						buffer;
 
 int		get_next_line(int fd, char **line);
 char	*fix_string_size(char *string, int size);
+int		end_of_file(buffer *process, char **line);
 
 #endif
