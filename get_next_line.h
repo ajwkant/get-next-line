@@ -6,7 +6,7 @@
 /*   By: akant <akant@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/05 13:47:57 by akant         #+#    #+#                 */
-/*   Updated: 2020/11/21 20:59:51 by akant         ########   odam.nl         */
+/*   Updated: 2020/11/23 13:09:40 by alexanderka   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ typedef	struct			fd_process
 }						buffer;
 
 int		get_next_line(int fd, char **line);
-buffer	*look_lst_for_fd(buffer *list, int fd);
-void	add_last_node(buffer **list, buffer *new_buf);
-buffer	*ft_lstlast(buffer *lst);
+char	*fix_string_size(char *string, int size);
 
 #endif

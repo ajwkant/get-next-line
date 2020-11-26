@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   testmain.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: alexanderkant <alexanderkant@student.co      +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2020/11/23 16:37:41 by alexanderka   #+#    #+#                 */
+/*   Updated: 2020/11/23 16:37:41 by alexanderka   ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 #include <sys/stat.h>
 #include <fcntl.h>
