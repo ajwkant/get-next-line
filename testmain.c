@@ -6,7 +6,7 @@
 /*   By: alexanderkant <alexanderkant@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/23 16:37:41 by alexanderka   #+#    #+#                 */
-/*   Updated: 2020/11/23 16:37:41 by alexanderka   ########   odam.nl         */
+/*   Updated: 2020/11/29 14:13:18 by akant         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int		main(void)
 	
 	buf = malloc(20 * sizeof(char));
 	
-	fd = open("test", O_RDONLY);
+	fd = open("test5", O_RDONLY);
 	while (read(fd, buf, 20))
 	{
 		printf("%s,", buf);

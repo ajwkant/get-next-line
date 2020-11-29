@@ -6,7 +6,7 @@
 /*   By: alexanderkant <akant@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/05 13:47:01 by akant         #+#    #+#                 */
-/*   Updated: 2020/11/26 21:21:50 by akant         ########   odam.nl         */
+/*   Updated: 2020/11/29 14:39:23 by akant         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int		end_reached(buffer *process, char **line)
 	process->line_size = 20;
 	if (!*line)
 		return (-1);
+	// printf("|%s\n", *line);
 	return (1);
 }
 
@@ -56,12 +57,14 @@ int		process_line(buffer *process, char **line)
 int		line_read(char **line, buffer *process)
 {
 	int		bytes_read;
+
 	while (1)
 	{
 		if (process->bindex == BUFFER_SIZE || process->bindex == 0)
 		{
 			process->bindex = 0;
 			bytes_read = read(process->fd, process->bstr, BUFFER_SIZE);
+			// printf("->%c", process->bstr[0]);
 			if (bytes_read < BUFFER_SIZE)
 				process->bstr[bytes_read] = '\0';
 			if (!bytes_read)
@@ -71,7 +74,7 @@ int		line_read(char **line, buffer *process)
 			}
 			if (bytes_read < 0)
 			{
-				free(*line); // Evt next line exists op 0 zetten.
+				free(*line);
 				process->exists = 0;
 				return (-1);
 			}
@@ -97,7 +100,7 @@ int		get_next_line(int fd, char **line)
 	static buffer	array[1];
 	buffer			*process;
 
-	if (fd <= 0 || !line || BUFFER_SIZE <= 0) // mag fd 0 zijn?
+	if (fd < 0 || !line || BUFFER_SIZE <= 0)
 		return (-1);
 	process = array;
 	make_process(process, fd);

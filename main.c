@@ -6,7 +6,7 @@
 /*   By: alexanderkant <alexanderkant@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/23 16:37:35 by alexanderka   #+#    #+#                 */
-/*   Updated: 2020/11/26 19:52:14 by akant         ########   odam.nl         */
+/*   Updated: 2020/11/29 14:37:57 by akant         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ int		main(void)
 	int i;
 	while ((i = get_next_line(fd1, &line)) > 0)
 	{
-		printf("%d |%s\n", i, line);
+		// printf("%d |%s\n", i, line);
 		free(line);
 	}
-	printf("%d |%s\n", i, line);
+	// printf("%d |%s\n", i, line);
 	free(line);
 	close(fd1);
 }

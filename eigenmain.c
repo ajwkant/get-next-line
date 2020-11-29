@@ -6,7 +6,7 @@
 /*   By: akant <akant@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/05 13:38:38 by akant         #+#    #+#                 */
-/*   Updated: 2020/11/24 14:34:57 by alexanderka   ########   odam.nl         */
+/*   Updated: 2020/11/29 14:22:03 by akant         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 int		main(void)
 {
-	char	*line;
+	char	**line;
 	// int		ret;
 	// int		fd1;
 	// int		fd2;
@@ -47,7 +47,7 @@ int		main(void)
 		result = get_next_line(fd, &line);
 		if (result != -1)
 		{
-			my_ft_putstr_fd(line, fd);
+			printf("%s\n", line);
 			if (result)
 				my_ft_putchar_fd('\n', fd);
 		}
