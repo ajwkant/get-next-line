@@ -6,11 +6,11 @@
 /*   By: alexanderkant <akant@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/05 13:47:01 by akant         #+#    #+#                 */
-/*   Updated: 2020/12/02 20:09:53 by alexanderka   ########   odam.nl         */
+/*   Updated: 2020/12/03 15:57:04 by akant         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 int		end_reached(buffer *process, char **line)
 {
@@ -18,7 +18,6 @@ int		end_reached(buffer *process, char **line)
 		return (end_of_file(process, line));
 	process->bindex++;
 	*line = fix_string_size(*line, process->sindex + 1, 1);
-	process->line_size = 20;
 	if (!*line)
 		return (-1);
 	return (1);
@@ -35,7 +34,7 @@ int		process_line(buffer *process, char **line)
 		process->sindex++;
 		if (process->sindex == process->line_size - 1)
 		{
-			*line = fix_string_size((*line), 2 * process->line_size, 2);
+			*line = fix_string_size((*line), process->line_size, 2);
 			if (!*line)
 				return (-1);
 			process->line_size = 2 * process->line_size;
@@ -86,10 +85,11 @@ void	make_process(buffer *process, int fd)
 	if (!process || process->exists != 1)
 	{
 		process->fd = fd;
-		process->line_size = 20;
 		process->bindex = 0;
 		process->exists = 1;
 	}
+	process->sindex = 0;
+	process->line_size = 20;
 }
 
 int		get_next_line(int fd, char **line)
@@ -99,13 +99,10 @@ int		get_next_line(int fd, char **line)
 
 	if (fd < 0 || !line || BUFFER_SIZE <= 0)
 		return (-1);
-	process = &array[fd];
+	process = &(array[fd]);
 	make_process(process, fd);
-	process->sindex = 0;
 	*line = malloc(process->line_size);
 	if (!*line)
 		return (-1);
 	return (line_read(line, process));
 }
-
-// free_array functie;

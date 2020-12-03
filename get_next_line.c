@@ -6,7 +6,7 @@
 /*   By: alexanderkant <akant@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/05 13:47:01 by akant         #+#    #+#                 */
-/*   Updated: 2020/12/02 20:09:33 by alexanderka   ########   odam.nl         */
+/*   Updated: 2020/12/03 18:04:27 by akant         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int		end_reached(buffer *process, char **line)
 		return (end_of_file(process, line));
 	process->bindex++;
 	*line = fix_string_size(*line, process->sindex + 1, 1);
-	process->line_size = 20;
 	if (!*line)
 		return (-1);
 	return (1);
@@ -86,10 +85,11 @@ void	make_process(buffer *process, int fd)
 	if (!process || process->exists != 1)
 	{
 		process->fd = fd;
-		process->line_size = 20;
 		process->bindex = 0;
 		process->exists = 1;
 	}
+	process->sindex = 0;
+	process->line_size = 20;
 }
 
 int		get_next_line(int fd, char **line)
@@ -101,11 +101,8 @@ int		get_next_line(int fd, char **line)
 		return (-1);
 	process = array;
 	make_process(process, fd);
-	process->sindex = 0;
 	*line = malloc(process->line_size);
 	if (!*line)
 		return (-1);
 	return (line_read(line, process));
 }
-
-// alles van initialisatie naar de make_process functie

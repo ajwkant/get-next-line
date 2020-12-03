@@ -6,7 +6,7 @@
 /*   By: alexanderkant <akant@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/05 13:47:57 by akant         #+#    #+#                 */
-/*   Updated: 2020/12/02 20:03:28 by alexanderka   ########   odam.nl         */
+/*   Updated: 2020/12/03 13:44:50 by akant         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	BUFFER_SIZE = 20;
 typedef	struct			fd_process
 {
 	int					exists;
-	int					fd; // weghalen
+	int					fd;
 	int					line_size;
 	char				bstr[BUFFER_SIZE + 1];
 	int					bindex;
