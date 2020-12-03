@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   eigenmain.c                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: akant <akant@student.codam.nl>               +#+                     */
+/*   By: alexanderkant <akant@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/05 13:38:38 by akant         #+#    #+#                 */
-/*   Updated: 2020/11/29 14:22:03 by akant         ########   odam.nl         */
+/*   Updated: 2020/12/03 10:36:14 by alexanderka   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,18 @@ int		main(void)
 
 	result = 1;
 	
-	if (!(fd = open("test5", O_RDONLY)))
-	{
-		printf("\nError in open\n");
-		return (0);
-	}
+	// if (!(fd = open("test5", O_RDONLY)))
+	// {
+	// 	printf("\nError in open\n");
+	// 	return (0);
+	// }
 	int i;
-	while (result > 0)
+	fd = 0;
+	while ((result = get_next_line(fd, line)))
 	{
-		result = get_next_line(fd, &line);
 		if (result != -1)
 		{
-			printf("%s\n", line);
-			if (result)
-				my_ft_putchar_fd('\n', fd);
+			printf("%s\n", *line);
 		}
 		free(line);
 	}
