@@ -6,13 +6,13 @@
 /*   By: alexanderkant <akant@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/05 13:47:01 by akant         #+#    #+#                 */
-/*   Updated: 2020/12/03 18:04:27 by akant         ########   odam.nl         */
+/*   Updated: 2020/12/10 15:58:48 by akant         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int		end_reached(buffer *process, char **line)
+int		end_reached(t_buffer *process, char **line)
 {
 	if (process->bstr[process->bindex] == '\0')
 		return (end_of_file(process, line));
@@ -23,7 +23,7 @@ int		end_reached(buffer *process, char **line)
 	return (1);
 }
 
-int		process_line(buffer *process, char **line)
+int		process_line(t_buffer *process, char **line)
 {
 	while (process->bindex < BUFFER_SIZE &&
 		process->bstr[process->bindex] != '\n' &&
@@ -48,7 +48,7 @@ int		process_line(buffer *process, char **line)
 	return (0);
 }
 
-int		line_read(char **line, buffer *process)
+int		line_read(char **line, t_buffer *process)
 {
 	int		bytes_read;
 	int		processint;
@@ -80,7 +80,7 @@ int		line_read(char **line, buffer *process)
 	}
 }
 
-void	make_process(buffer *process, int fd)
+void	make_process(t_buffer *process, int fd)
 {
 	if (!process || process->exists != 1)
 	{
@@ -94,8 +94,8 @@ void	make_process(buffer *process, int fd)
 
 int		get_next_line(int fd, char **line)
 {
-	static buffer	array[1];
-	buffer			*process;
+	static t_buffer	array[1];
+	t_buffer			*process;
 
 	if (fd < 0 || !line || BUFFER_SIZE <= 0)
 		return (-1);

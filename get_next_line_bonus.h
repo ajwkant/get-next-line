@@ -6,25 +6,17 @@
 /*   By: alexanderkant <akant@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/05 13:47:57 by akant         #+#    #+#                 */
-/*   Updated: 2020/12/03 13:44:50 by akant         ########   odam.nl         */
+/*   Updated: 2020/12/10 16:59:28 by akant         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stddef.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 
-#ifndef GET_NEXT_LINE
-# define GET_NEXT_LINE
+# include <unistd.h>
+# include <stdlib.h>
 
-# ifndef BUFFER_SIZE
-
-int	BUFFER_SIZE = 20;
-# endif
-
-typedef	struct			fd_process
+typedef	struct			s_fd_process
 {
 	int					exists;
 	int					fd;
@@ -32,10 +24,10 @@ typedef	struct			fd_process
 	char				bstr[BUFFER_SIZE + 1];
 	int					bindex;
 	int					sindex;
-}						buffer;
+}						t_buffer;
 
-int		get_next_line(int fd, char **line);
-char	*fix_string_size(char *string, int size, int multiplier);
-int		end_of_file(buffer *process, char **line);
+int						get_next_line(int fd, char **line);
+char					*fix_string_size(char *string, int size, int multiplier);
+int						end_of_file(t_buffer *process, char **line);
 
 #endif

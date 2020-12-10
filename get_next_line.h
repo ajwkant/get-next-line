@@ -6,7 +6,7 @@
 /*   By: alexanderkant <akant@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/05 13:47:57 by akant         #+#    #+#                 */
-/*   Updated: 2020/12/03 16:35:43 by akant         ########   odam.nl         */
+/*   Updated: 2020/12/10 16:59:52 by akant         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,20 @@
 # define GET_NEXT_LINE_H
 
 # include <unistd.h>
-# include <stdio.h>
 # include <stdlib.h>
 
 typedef struct	s_process
 {
-	int		exists;
-	int		fd;
-	int		line_size;
-	char	bstr[BUFFER_SIZE + 1];
-	int		bindex;
-	int		sindex;
-}				buffer;
+	int			exists;
+	int			fd;
+	int			line_size;
+	char		bstr[BUFFER_SIZE + 1];
+	int			bindex;
+	int			sindex;
+}				t_buffer;
 
-int		get_next_line(int fd, char **line);
-char	*fix_string_size(char *string, int size, int multiplier);
-int		end_of_file(buffer *process, char **line);
+int				get_next_line(int fd, char **line);
+char			*fix_string_size(char *string, int size, int multiplier);
+int				end_of_file(t_buffer *process, char **line);
 
 #endif
