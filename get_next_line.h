@@ -6,13 +6,14 @@
 /*   By: akant <akant@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/05 13:47:57 by akant         #+#    #+#                 */
-/*   Updated: 2020/12/18 16:48:06 by akant         ########   odam.nl         */
+/*   Updated: 2020/12/18 17:34:40 by akant         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
+# include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
 
