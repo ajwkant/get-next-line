@@ -1,38 +1,72 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   get_next_line_bonus_utils.c                        :+:    :+:            */
+/*   get_next_line_utils_bonus.c                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: alexanderkant <akant@student.codam.nl>       +#+                     */
+/*   By: akant <akant@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/11/05 13:59:22 by akant         #+#    #+#                 */
-/*   Updated: 2020/12/03 11:50:31 by akant         ########   odam.nl         */
+/*   Created: 2020/12/17 09:44:49 by akant         #+#    #+#                 */
+/*   Updated: 2020/12/18 16:45:57 by akant         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
-char	*fix_string_size(char *string, int size, int multiplier)
+int		ft_strlen(char *str, char delim)
 {
-	char	*newstring;
+	int i;
 
-	newstring = malloc(size * multiplier);
-	if (!newstring)
-		return (NULL);
-	while (size)
-	{
-		newstring[size - 1] = string[size - 1];
-		size--;
-	}
-	free(string);
-	return (newstring);
+	i = 0;
+	while (str[i] != delim && str[i])
+		i++;
+	return (i);
 }
 
-int		end_of_file(buffer *process, char **line)
+int		ft_strccpy(char *s1, char *s2, char c)
 {
-	*line = fix_string_size(*line, process->sindex + 1, 1);
-	process->exists = 0;
-	if (!*line)
-		return (-1);
+	while (s2 && *s2 != c && *s2)
+	{
+		*s1 = *s2;
+		s1++;
+		s2++;
+	}
+	*s1 = '\0';
+	if (s2 && *s2 == '\n')
+		return (1);
 	return (0);
+}
+
+void	move_buf_forward(char *buf)
+{
+	int i;
+
+	i = ft_strlen(buf, '\n') + 1;
+	if (buf[i - 1] == '\0')
+	{
+		buf[0] = '\0';
+		return ;
+	}
+	ft_strccpy(buf, buf + i, '\0');
+}
+
+char	*new_str(char *s1, char *s2)
+{
+	int		i;
+	char	*string;
+	int		s1_len;
+	int		s2_len;
+
+	i = 0;
+	if (s1)
+		s1_len = ft_strlen(s1, '\0');
+	else
+		s1_len = 0;
+	s2_len = ft_strlen(s2, '\n');
+	string = malloc((s1_len + s2_len + 1) * sizeof(char));
+	if (string == NULL)
+		return (NULL);
+	ft_strccpy(string, s1, '\0');
+	if (s1)
+		free(s1);
+	return (string);
 }

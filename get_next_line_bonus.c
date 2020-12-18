@@ -3,106 +3,64 @@
 /*                                                        ::::::::            */
 /*   get_next_line_bonus.c                              :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: alexanderkant <akant@student.codam.nl>       +#+                     */
+/*   By: akant <akant@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/11/05 13:47:01 by akant         #+#    #+#                 */
-/*   Updated: 2020/12/10 15:58:06 by akant         ########   odam.nl         */
+/*   Created: 2020/12/18 16:37:26 by akant         #+#    #+#                 */
+/*   Updated: 2020/12/18 16:37:27 by akant         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-int		end_reached(t_buffer *process, char **line)
+int		buf_to_line(char **line, char *buffer)
 {
-	if (process->bstr[process->bindex] == '\0')
-		return (end_of_file(process, line));
-	process->bindex++;
-	*line = fix_string_size(*line, process->sindex + 1, 1);
-	if (!*line)
+	int		start_i;
+	int		newline_found;
+
+	start_i = ft_strlen(*line, '\0');
+	newline_found = ft_strccpy(*line + start_i, buffer, '\n');
+	move_buf_forward(buffer);
+	return (newline_found);
+}
+
+int		read_line(char *buffer, int fd)
+{
+	int	bytes_read;
+
+	bytes_read = read(fd, buffer, BUFFER_SIZE);
+	if (bytes_read < 0)
 		return (-1);
-	return (1);
-}
-
-int		process_line(t_buffer *process, char **line)
-{
-	while (process->bindex < BUFFER_SIZE &&
-		process->bstr[process->bindex] != '\n' &&
-		process->bstr[process->bindex] != '\0')
-	{
-		(*line)[process->sindex] = process->bstr[process->bindex];
-		process->bindex++;
-		process->sindex++;
-		if (process->sindex == process->line_size - 1)
-		{
-			*line = fix_string_size((*line), process->line_size, 2);
-			if (!*line)
-				return (-1);
-			process->line_size = 2 * process->line_size;
-		}
-	}
-	if (process->bindex != BUFFER_SIZE)
-	{
-		(*line)[process->sindex] = '\0';
-		return (1);
-	}
-	return (0);
-}
-
-int		line_read(char **line, t_buffer *process)
-{
-	int		bytes_read;
-	int		processint;
-
-	while (1)
-	{
-		if (process->bindex == BUFFER_SIZE || process->bindex == 0)
-		{
-			process->bindex = 0;
-			bytes_read = read(process->fd, process->bstr, BUFFER_SIZE);
-			if (bytes_read < BUFFER_SIZE)
-				process->bstr[bytes_read] = '\0';
-			if (!bytes_read)
-			{
-				(*line)[process->sindex] = '\0';
-				return (end_of_file(process, line));
-			}
-			if (bytes_read < 0)
-			{
-				process->exists = 0;
-				return (-1);
-			}
-		}
-		processint = process_line(process, line);
-		if (processint)
-			return (end_reached(process, line));
-		else if (processint == -1)
-			return (-1);
-	}
-}
-
-void	make_process(t_buffer *process, int fd)
-{
-	if (!process || process->exists != 1)
-	{
-		process->fd = fd;
-		process->bindex = 0;
-		process->exists = 1;
-	}
-	process->sindex = 0;
-	process->line_size = 20;
+	else if (bytes_read == 0)
+		return (0);
+	buffer[bytes_read] = '\0';
+	return (bytes_read);
 }
 
 int		get_next_line(int fd, char **line)
 {
-	static t_buffer	array[1024];
-	t_buffer			*process;
+	static char		buffer[1024][BUFFER_SIZE + 1];
+	int				bytes;
 
-	if (fd < 0 || !line || BUFFER_SIZE <= 0)
+	if (fd < 0 || !line || BUFFER_SIZE <= 0 || read(fd, buffer[fd], 0))
 		return (-1);
-	process = &(array[fd]);
-	make_process(process, fd);
-	*line = malloc(process->line_size);
-	if (!*line)
-		return (-1);
-	return (line_read(line, process));
+	*line = NULL;
+	bytes = 1;
+	while (bytes)
+	{
+		if (!ft_strlen(buffer[fd], '\0'))
+		{
+			bytes = read_line(buffer[fd], fd);
+			if (bytes < 0)
+				return (-1);
+		}
+		if (bytes >= 0)
+		{
+			*line = new_str(*line, buffer[fd]);
+			if (!*line)
+				return (-1);
+			if (buf_to_line(line, buffer[fd]))
+				return (1);
+		}
+	}
+	return (0);
 }
